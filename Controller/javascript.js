@@ -52,25 +52,19 @@ function myEquip() {
     }
 }
 
-function availableMoons() {
-    var x = document.getElementById("MoonID");
-    if (x.value = 1);
-}
 
-
-function validateTextField() {
-
-    let select = document.querySelector('#selected');
-    let selected = select.options[select.selectedIndex];
-    let usedField = selected.innerHTML;
-    let Field = document.querySelector('#emergency');
-
-    if (usedField == "Bug") {
-        Field.selectedIndex = 3;
-        Field.disabled = true;
-    } else {
-        Field.selectedIndex = 0;
-        Field.disabled = false;
-    }
-
-}
+(function () {
+    'use strict';
+    window.addEventListener('load', function () {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function (form) {
+            form.addEventListener('submit', function (event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();

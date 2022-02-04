@@ -2,7 +2,7 @@
     width: 100%;
     padding: 50px 0;
     text-align: center;
-    background-color: rgba(85, 226, 149, 0.89);
+    background-color: rgba(85, 226, 149);
     margin-top: 20px;
     display: none;
     border-radius: 20px;
@@ -76,15 +76,88 @@
   #user_loggedin {
     background-color: rgb(51, 255, 238);
     border-radius: 10px;
+    border: 3px solid;
   }
   #count {
-    background-color: rgb(252, 148, 107);
+    background-color: rgb(255, 146, 96);
     border-radius: 5px;
   }
   #cards {
     background-color: rgb(156, 248, 153);
     border-radius: 5px;
+    border: 3px solid;
   }
   #img_ts {
     margin-bottom: 15px;
+    border-radius: 10px;
+    border: 3px solid;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  #login {
+    background-color: #3eff4f;
+    border-radius: 10px;
+    margin: auto;
+    align-self: center;
+    margin-top: 100px;
+  }
+  #loginT {
+    border-radius: 10px;
+    width:fit-content;
+    align-self: center;
+  }
+  body {
+    background-image: url("../Images/Background1.jpg");
+    background-color: #cccccc;
+   }
+
+   #text-underlay {
+    border-radius: 5px;
+    width: fit-content;
+    align-self: center;
+    text-align: center;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    color: white;
+  }
+
+  #text-underlay-log {
+    border-radius: 5px;
+    border: 3px solid;
+    width: fit-content;
+    align-self: center;
+    text-align: center;
+    color: white;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+
+  
+  #underlay {
+    border-radius: 5px;
+    width: fit-content;
+    align-self: center;
+    background-color: rgb(255, 146, 96);
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 3px solid;
+  }
+
+  #button-pad {
+    margin-top: 5px;
+    margin-bottom: 15px;
+  }
+
+  #button-pad2 {
+    margin-top: 15px;
+    margin-bottom: 0px;
+  }
+
+  #notValid {
+    color: red;
   }

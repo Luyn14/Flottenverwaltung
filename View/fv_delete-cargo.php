@@ -3,6 +3,9 @@
 require('../Controller/db-connect.php');
 
 session_start();
+if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+    header('Location: flottenverwaltung_Titelseite.php');
+}
 
 $cargoid = 0;
 $shipid = 0;

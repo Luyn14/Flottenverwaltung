@@ -7,16 +7,17 @@ if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
     header('Location: flottenverwaltung_Titelseite.php');
 }
 
-$id = 0;
+$eid = 0;
+$sid = 0;
 
 if (!empty($_GET)) {
 
-    $id = $_GET['id'];
+    $eid = $_GET['eid'];
+    $sid = $_GET['sid'];
 
-    $sql = "SELECT * FROM tSpaceship 
-            JOIN tDivision ON tDivision.DivisionID=tSpaceship.DivisionFID
-            JOIN tSpaceshiprole ON tSpaceshiprole.SpaceshiproleID=tSpaceship.SpaceshiproleFID
-            WHERE SpaceshipID = $id";
+    $sql = "SELECT * FROM tShipequipment 
+    JOIN tSpaceship_Shipequipment ON tSpaceship_Shipequipment.ShipequipmentFID=tShipequipment.ShipequipmentID
+    WHERE ShipequipmentID = $eid AND SpaceshipFID = $sid;";
 
     $result = $conn->query($sql);
 
@@ -24,7 +25,7 @@ if (!empty($_GET)) {
 }
 
 $sql2 = "SELECT Shipname, SpaceshipID FROM tSpaceship 
-        ORDER BY SpaceshipID ASC;";
+        WHERE SpaceshipID = $sid;";
 $result2 = $conn->query($sql2);
 $row2 = $result2->fetch_assoc();
 
@@ -42,11 +43,11 @@ $row2 = $result2->fetch_assoc();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="stylesheet.css">
     <script src="../Controller/javascript.js"></script>
-    <title>Raumschiff Löschen</title>
+    <title>Crew Entfernen</title>
 </head>
 
 <body>
-    <h3 class="text-center"> Raumschiff Löschen </h3>
+    <h3 class="text-center"> Equipment Abrüsten </h3>
     <form method="POST" action="">
         <div class="container">
             <div class="center">
@@ -57,44 +58,44 @@ $row2 = $result2->fetch_assoc();
                                 <h3>
                                     <tr>
                                         <td>
-                                            <b>SpaceshipID:</b>
+                                            <b>Equipmentname:</b>
                                         </td>
-                                        <td><?php echo $row['SpaceshipID'] ?></td>
+                                        <td><?php echo $row['Equipmentname'] ?></td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <b>Shipname:</b>
+                                            <b>Equipmentsize:</b>
                                         </td>
-                                        <td><?php echo $row['Shipname'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>Shiprole:</b>
-                                        </td>
-                                        <td><?php echo $row['Rolename'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>Divisionname:</b>
-                                        </td>
-                                        <td><?php echo $row['Divisionname'] ?></td>
+                                        <td><?php echo $row['Equipmentsize'] ?></td>
                                     </tr>
                                 </h3>
+                                <h4>
+                                    <tr>
+                                        <td>
+                                            <b>Equipmentamount:</b>
+                                        </td>
+                                        <td><?php echo $row['Equipmentamount'] ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Spaceship:</b>
+                                        </td>
+                                        <td><?php echo $row2['Shipname'] ?></td>
+                                    </tr>
+                                </h4>
                             </table>
                             <div class="col text-center">
                                 <div class="break">
-                                    Raumschiff entfernen?<br>
+                                    Equipment abrüsten?<br>
                                 </div>
                                 <div class="break2">
-                                    <a href="../Controller/delete-spaceship.php?SpaceshipID=<?php echo $id ?>" class="btn btn-primary">Ja </a>
+                                    <a href="../Controller/unequip-equipment.php?eid=<?php echo $eid ?>&sid=<?php echo $sid ?>" class="btn btn-primary">Ja </a>
                                     <a href="fv_uebersicht.php" class="btn btn-danger">Nein</a>
                                 </div>
                             </div>
                     </div>
                 </div>
             </div>
-            <label for="CrewID"></label>
-
     </form>
 
 </body>

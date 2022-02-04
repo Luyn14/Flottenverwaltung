@@ -2,30 +2,47 @@
 
 require('db-connect.php');
 
-$Shipname = $_POST['Shipname'];
+require('validation.php');
+
+$validation = new Validation();
+
+$Shipname = "";
+
+if (!empty($_POST)) {
+
+    $Shipname = $_POST['Shipname'];
+
+    $isShipnameValid = $validation->validateText($Shipname);
+}
+
 $DivisionID = $_POST['DivisionID'];
 $ShiproleID = $_POST['ShiproleID'];
 $DestinationID = $_POST['DestinationID'];
 $MoonID = $_POST['MoonID'];
 
-$sql = "SELECT DestmoonID FROM tDest_Moon WHERE DestinationFID = '$DestinationID' AND MoonFID = '$MoonID';";
+if ($isShipnameValid == true) {
 
-$result = $conn->query($sql);
+    $sql = "SELECT DestmoonID FROM tDest_Moon WHERE DestinationFID = '$DestinationID' AND MoonFID = '$MoonID';";
 
-$DestmoonID_ar = $result->fetch_assoc();
+    $result = $conn->query($sql);
 
-$DestmoonID = $DestmoonID_ar['DestmoonID'];
+    $DestmoonID_ar = $result->fetch_assoc();
 
-$sql = "INSERT INTO tSpaceship (Shipname, DivisionFID, SpaceshiproleFID, DestmoonFID) VALUES ('$Shipname', '$DivisionID', '$ShiproleID', '$DestmoonID');";
+    $DestmoonID = $DestmoonID_ar['DestmoonID'];
 
-$result = $conn->query($sql);
+    $sql = "INSERT INTO tSpaceship (Shipname, DivisionFID, SpaceshiproleFID, DestmoonFID) VALUES ('$Shipname', '$DivisionID', '$ShiproleID', '$DestmoonID');";
 
-/*------------------------*/
+    $result = $conn->query($sql);
+
+    /*------------------------*/
 
 
 
-if ($result) {
-    header('Location: ../View/fv_uebersicht.php');
+    if ($result) {
+        header('Location: ../View/fv_uebersicht.php');
+    } else {
+        echo "Es ist ein Fehler aufgetreten: " . $conn->error;
+    }
 } else {
-    echo "Es ist ein Fehler aufgetreten: " . $conn->error;
+    header("Location: ../view/fv_add-spaceship.php?Shipname=$isShipnameValid");
 }

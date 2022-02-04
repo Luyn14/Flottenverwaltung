@@ -8,15 +8,15 @@ if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
 }
 
 $id = 0;
-$c_id = $_GET['c_id'];
+$a_id = $_GET['a_id'];
 
 if (!empty($_GET)) {
 
     $id = $_GET['id'];
 
     $sql = "SELECT * FROM tSpaceship
-            JOIN tSpaceship_Cargo ON tSpaceship_Cargo.SpaceshipFID=tSpaceship.SpaceshipID
-            JOIN tCargohold ON tCargohold.CargoholdID=tSpaceship_Cargo.CargoholdFID
+            JOIN tSpaceship_Ammunition ON tSpaceship_Ammunition.SpaceshipFID=tSpaceship.SpaceshipID
+            JOIN tAmmunitionhold ON tAmmunitionhold.AmmunitionholdID=tSpaceship_Ammunition.AmmunitionholdFID
             WHERE SpaceshipID = $id";
 
     $result = $conn->query($sql);
@@ -28,18 +28,18 @@ $sql2 = "SELECT Shipname, SpaceshipID FROM tSpaceship
         ORDER BY SpaceshipID ASC;";
 $result2 = $conn->query($sql2);
 
-$sql3 = "SELECT * FROM tCargohold";
+$sql3 = "SELECT * FROM tAmmunitionhold";
 $result3 = $conn->query($sql3);
 
-$sql4 = "SELECT * FROM tCargohold
-        JOIN tSpaceship_Cargo ON tSpaceship_Cargo.CargoholdFID=tCargohold.CargoholdID
-        JOIN tSpaceship ON tSpaceship.SpaceshipID=tSpaceship_Cargo.SpaceshipFID
-        WHERE CargoholdID = '$c_id' AND SpaceshipID = '$id'";
+$sql4 = "SELECT * FROM tAmmunitionhold
+        JOIN tSpaceship_Ammunition ON tSpaceship_Ammunition.AmmunitionholdFID=tAmmunitionhold.AmmunitionholdID
+        JOIN tSpaceship ON tSpaceship.SpaceshipID=tSpaceship_Ammunition.SpaceshipFID
+        WHERE AmmunitionholdID = '$a_id' AND SpaceshipID = '$id'";
 $result4 = $conn->query($sql4);
-$CargoholdID_ar = $result4->fetch_assoc();
-$CargoholdID = $CargoholdID_ar['CargoholdID'];
-$Cargoamount = $CargoholdID_ar['Cargoamount'];
-$SpaceshipID = $CargoholdID_ar['SpaceshipID'];
+$AmmunitionholdID_ar = $result4->fetch_assoc();
+$AmmunitionholdID = $AmmunitionholdID_ar['AmmunitionholdID'];
+$Ammunitionamount = $AmmunitionholdID_ar['Ammunitionamount'];
+$SpaceshipID = $AmmunitionholdID_ar['SpaceshipID'];
 
 $sql5 = "SELECT * FROM tCrew
         JOIN tCrew_Spaceship ON tCrew_Spaceship.CrewFID=tCrew.CrewID
@@ -62,13 +62,13 @@ $Shipname = $Shipname_ar['Shipname'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="../Controller/javascript.js"></script>
-    <title>Crew Hinzufügen</title>
+    <title>Ammunition Bearbeiten</title>
 </head>
 
 <body>
     <div class="container">
-        <h3 class="text-center"> Cargo Bearbeiten </h3>
-        <form method="POST" class="needs-validation" action="../Controller/edit-cargo.php?cid=<?php echo $c_id ?>&sid=<?php echo $id ?>">
+        <h3 class="text-center"> Ammunition Bearbeiten </h3>
+        <form method="POST" class="needs-validation" action="../Controller/edit-ammo.php?aid=<?php echo $a_id ?>&sid=<?php echo $id ?>">
             <div class="mb-3">
                 <label for="Shipname" class="form-label">Shipname</label> <br>
                 <select name="Shipname" class="custom-select custom-select-lg mb-3" disabled>
@@ -78,17 +78,17 @@ $Shipname = $Shipname_ar['Shipname'];
                 </select>
             </div>
             <div class="mb-3">
-                <label for="Cargoname" class="form-label">Cargoname</label> <br>
-                <select name="Cargoname" class="custom-select custom-select-lg mb-3" disabled>
+                <label for="Ammunitionname" class="form-label">Ammunitionname</label> <br>
+                <select name="Ammunitionname" class="custom-select custom-select-lg mb-3" disabled>
                     <?php while ($row3 = $result3->fetch_assoc()) { ?>
-                        <option value="<?php echo $row3['CargoholdID']; ?>" <?php if ($row3['CargoholdID'] == $CargoholdID) { ?> selected <?php }; ?>><?php echo $row3['Cargoname']; ?></option>
+                        <option value="<?php echo $row3['AmmunitionholdID']; ?>" <?php if ($row3['AmmunitionholdID'] == $AmmunitionholdID) { ?> selected <?php }; ?>><?php echo $row3['Ammunitionname']; ?></option>
                     <?php } ?>
                 </select>
             </div>
 
             <div class="mb-3">
-                <label for="Cargoamount" class="form-label">Cargoamount</label>
-                <input type="text" class="form-control" id="Cargoamount" name="Cargoamount" value="<?php echo $Cargoamount ?>" required>
+                <label for="Ammunitionamount" class="form-label">Ammunitionamount</label>
+                <input type="text" class="form-control" id="Ammunitionamount" name="Ammunitionamount" value="<?php echo $Ammunitionamount ?>" required>
             </div>
             <button type=" submit" name="submit" class="btn btn-primary">Submit</button>
             <a href="fv_datenbank.php" class="btn btn-danger">Zurück</a>

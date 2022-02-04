@@ -3,6 +3,16 @@
 require('../Controller/db-connect.php');
 
 session_start();
+if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+    header('Location: flottenverwaltung_Titelseite.php');
+}
+
+$isShipnameValid = True;
+
+if (isset($_GET['Shipname'])) {
+
+    $isShipnameValid = $_GET['Shipname'];
+}
 
 $sql1 = "SELECT * FROM tDivision ORDER BY DivisionID ASC;";
 $result1 = $conn->query($sql1);
@@ -26,16 +36,27 @@ $result4 = $conn->query($sql4);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="stylesheet.css">
+    <script src="../Controller/javascript.js"></script>
     <title>Raumschiff Hinzufügen</title>
+    <style>
+        body {
+            background-image: url("");
+            background-color: #FFFFFF;
+        }
+    </style>
 </head>
 
 <body>
     <h3 class="text-center"> Neues Raumschiff erfassen </h3>
-    <form method="POST" action="../Controller/save-spaceship.php">
+    <form method="POST" class="needs-validation" action="../Controller/save-spaceship.php">
         <input type="hidden" name="id" value="">
         <div class="mb-3">
             <label for="Shipname" class="form-label">Shipname</label>
-            <input type="text" class="form-control" id="Shipname" aria-describedby="emailHelp" name="Shipname" value="">
+            <input type="text" class="form-control" id="Shipname" aria-describedby="emailHelp" name="Shipname" value="" required>
+            <?php if ($isShipnameValid == false) { ?>
+                <h6 id="notValid">Schiffsname fehlt!</h6>
+            <?php } ?>
         </div>
         <div class="mb-3">
             <label for="DivisionID" class="form-label">Division</label> <br>
@@ -55,7 +76,7 @@ $result4 = $conn->query($sql4);
         </div>
         <div class="mb-3">
             <label for="DestinationID" class="form-label">Planet</label> <br>
-            <select name="DestinationID" id="DestinationID" class="custom-select custom-select-lg mb-3" onchange="availableMoons()">
+            <select name="DestinationID" id="DestinationID" class="custom-select custom-select-lg mb-3">
                 <?php while ($row3 = $result3->fetch_assoc()) { ?>
                     <option value="<?php echo $row3['DestinationID']; ?>"><?php echo $row3['Destinationname']; ?></option>
                 <?php } ?>

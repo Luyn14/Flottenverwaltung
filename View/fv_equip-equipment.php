@@ -3,6 +3,15 @@
 require('../Controller/db-connect.php');
 
 session_start();
+if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+    header('Location: flottenverwaltung_Titelseite.php');
+}
+
+$isEquipmentamountValid = True;
+
+if (isset($_GET['Equipmentamount'])) {
+    $isEquipmentamountValid = $_GET['Equipmentamount'];
+}
 
 $sql1 = "SELECT * FROM tShipequipment WHERE Equipmentsize = 1 ORDER BY ShipequipmentID ASC;";
 $result1 = $conn->query($sql1);
@@ -24,12 +33,20 @@ $result3 = $conn->query($sql3);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="stylesheet.css">
+    <script src="../Controller/javascript.js"></script>
     <title>Equipment Ausrüsten</title>
+    <style>
+        body {
+            background-image: url("");
+            background-color: #FFFFFF;
+        }
+    </style>
 </head>
 
 <body>
     <h3 class="text-center">Equipment ausrüsten </h3>
-    <form method="POST" action="../Controller/save-equip-equipment.php">
+    <form method="POST" class="needs-validation" action="../Controller/save-equip-equipment.php">
         <input type="hidden" name="id" value="">
         <div class="mb-3">
             <label for="Equipmentname" class="form-label">Equipmentname</label> <br>
@@ -49,7 +66,10 @@ $result3 = $conn->query($sql3);
         </div>
         <div class="mb-3">
             <label for="Equipmentamount" class="form-label">Equipmentamount</label>
-            <input type="text" class="form-control" id="Equipmentamount" aria-describedby="emailHelp" name="Equipmentamount" value="">
+            <input type="text" class="form-control" id="Equipmentamount" aria-describedby="emailHelp" name="Equipmentamount" value="" required>
+            <?php if ($isEquipmentamountValid == false) { ?>
+                <h6 id="notValid">Ausrüstungs Menge fehlt, ist falsch!</h6>
+            <?php } ?>
         </div>
         <div class="mb-3">
             <label for="SpaceshipID" class="form-label">Shipname</label> <br>

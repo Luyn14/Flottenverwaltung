@@ -2,6 +2,9 @@
 require('../Controller/db-connect.php');
 
 session_start();
+if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+    header('Location: flottenverwaltung_Titelseite.php');
+}
 
 $sql1 = "SELECT * FROM tSpaceship 
         JOIN tSpaceshiprole ON tSpaceshiprole.SpaceshiproleID=tSpaceship.SpaceshiproleFID
@@ -52,18 +55,17 @@ $result5 = $conn->query($sql5);
 
 <body>
     <div class="container">
-        <h1 class="text-center"> Datenbank </h1>
+        <h1 class="text-center" id="text-underlay-log"> Datenbank </h1>
     </div>
     <div class="container">
         <button type="button" class="btn btn-info" onclick="myCargo()">Cargohold</button>
         <button type="button" class="btn btn-info" onclick="myAmmunition()">Ammunitionhold</button>
-        <button type="button" class="btn btn-info" onclick="myEquipment()">Equipment</button>
         <div id="cargo_style">
-            <h1 class="text-center">Cargohold</h1>
+            <h1 class="text-center">Fracht</h1>
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">CargoholdID(Shipname)</th>
+                        <th scope="col">Shipname</th>
                         <th scope="col">Cargoname</th>
                         <th scope="col">Cargoamount</th>
                     </tr>
@@ -96,7 +98,7 @@ $result5 = $conn->query($sql5);
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">AmmunitionholdID(Shipname)</th>
+                        <th scope="col">Shipname</th>
                         <th scope="col">Ammunitionname</th>
                         <th scope="col">Ammunitionamount</th>
                     </tr>
@@ -111,8 +113,8 @@ $result5 = $conn->query($sql5);
                             <th scope="row"><?php echo $row5['Shipname'] ?></th>
                             <td><?php echo $row5['Ammunitionname'] ?></td>
                             <td><?php echo $row5['Ammunitionamount'] ?></td>
-                            <td><a href="fv_edit-ammunition.php?id=<?php echo $row4['SpaceshipID']; ?>&a_id=<?php echo $row4['AmmunitionholdID']; ?>" class="btn btn-primary">Bearbeiten</a>
-                            <td><a href="fv_delete-ammunition.php?shipid=<?php echo $row4['SpaceshipID']; ?>&ammoid=<?php echo $row4['AmmunitionholdID']; ?>" class="btn btn-danger">Löschen</a>
+                            <td><a href="fv_edit-ammo.php?id=<?php echo $row5['SpaceshipID']; ?>&a_id=<?php echo $row5['AmmunitionholdID']; ?>" class="btn btn-primary">Bearbeiten</a>
+                            <td><a href="fv_delete-ammo.php?shipid=<?php echo $row5['SpaceshipID']; ?>&ammoid=<?php echo $row5['AmmunitionholdID']; ?>" class="btn btn-danger">Löschen</a>
                         </tr>
 
                     <?php
@@ -123,41 +125,6 @@ $result5 = $conn->query($sql5);
                 </tbody>
             </table>
             <a href="fv_add-ammo.php" class="btn btn-primary">Neue Munition hinzufügen</a>
-        </div>
-        <div id="equip_style">
-            <h1 class="text-center">Equipment</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">EquipmentID</th>
-                        <th scope="col">Equipmentname</th>
-                        <th scope="col">Equipmentsize</th>
-                        <th scope="col">Equipmentamount</th>
-                        <th scope="col">Shipname</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    while ($row3 = $result3->fetch_assoc()) {
-
-                    ?>
-
-                        <tr>
-                            <th scope="row"><?php echo $row3['ShipequipmentID'] ?></th>
-                            <td><?php echo $row3['Equipmentname'] ?></td>
-                            <td><?php echo $row3['Equipmentsize'] ?></td>
-                            <td><?php echo $row3['Equipmentamount'] ?></td>
-                            <td><?php echo $row3['Shipname'] ?></td>
-                        </tr>
-
-                    <?php
-
-                    }
-
-                    ?>
-                </tbody>
-            </table>
-            <a href="fv_equip-equipment.php" class="btn btn-primary">Equipment ausrüsten</a>
         </div>
     </div>
     <div class="container">

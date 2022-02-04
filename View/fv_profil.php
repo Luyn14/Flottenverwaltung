@@ -2,6 +2,9 @@
 require('../Controller/db-connect.php');
 
 session_start();
+if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+    header('Location: flottenverwaltung_Titelseite.php');
+}
 
 $prename = $_SESSION['Prename'];
 $lastname = $_SESSION['Lastname'];
@@ -112,7 +115,7 @@ $result5 = $conn->query($sql5);
                             </tr>
                         </h4>
                     </table>
-                    <a href="../Controller/logout.php" class="btn btn-danger">Logout</a>
+                    <a href="../Controller/logout.php" id="button-pad2" class="btn btn-danger">Logout</a>
                 </h4>
             </div>
         </div>
@@ -234,7 +237,7 @@ $result5 = $conn->query($sql5);
 
     <div class="container">
         <br>
-        <a href="flottenverwaltung_Login.php" class="btn btn-danger">Zurück</a>
+        <a href="flottenverwaltung_Login.php" id="button-pad" class="btn btn-danger">Zurück</a>
     </div>
 
 </body>

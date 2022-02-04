@@ -2,6 +2,9 @@
 require('../Controller/db-connect.php');
 
 session_start();
+if (!isset($_SESSION['loggedIn']) || !$_SESSION['loggedIn']) {
+    header('Location: flottenverwaltung_Titelseite.php');
+}
 
 $sql1 = "SELECT * FROM tSpaceship 
         JOIN tSpaceshiprole ON tSpaceshiprole.SpaceshiproleID=tSpaceship.SpaceshiproleFID
@@ -43,7 +46,7 @@ $result3 = $conn->query($sql3);
 
 <body>
     <div class="container">
-        <h1 class="text-center"> Flotten-Übersicht </h1>
+        <h1 class="text-center" id="text-underlay-log"> Flotten-Übersicht </h1>
     </div>
     <div class="container">
         <button type="button" class="btn btn-info" onclick="myCrew()">Crew</button>
@@ -154,6 +157,7 @@ $result3 = $conn->query($sql3);
                             <td><?php echo $row3['Equipmentsize'] ?></td>
                             <td><?php echo $row3['Equipmentamount'] ?></td>
                             <td><?php echo $row3['Shipname'] ?></td>
+                            <td><a href="fv_unequip-equipment.php?eid=<?php echo $row3['ShipequipmentID'] ?>&sid=<?php echo $row3['SpaceshipID']; ?>" class="btn btn-danger">Löschen</a>
                         </tr>
 
                     <?php

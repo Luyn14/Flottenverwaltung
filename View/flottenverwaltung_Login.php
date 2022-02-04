@@ -41,16 +41,18 @@ $count_Crew = $count_Crew_arr['COUNT(CrewID)'];
 
 <body>
     <div class="container">
-        <h1 class="text-center"> Flottenverwaltung </h1>
+        <h1 class="text-center" id="text-underlay-log">
+            <b>Flottenverwaltung</b>
+        </h1>
 
-        <h3><b>Flotten Übersicht</b></h3>
+        <h3 id="text-underlay-log"><b>Flotten Übersicht</b></h3>
         <form method="POST" action="../Controller/login.php">
             <div class="row">
                 <div class="col-3 col-xs-5 col-md-5 col-lg-6 col-xl-8">
-                    <div class="row" id="img_ts">
-                        <img src=" ../Images/Fleet_Titlescreen.jpg" class="card-img-top" alt="...">
+                    <div class="row">
+                        <img src=" ../Images/Fleet_Titlescreen.jpg" class="card-img-top" alt="..." id="img_ts">
                     </div>
-                    <div class="card" style="width: auto;" id="count">
+                    <div class=" card" style="width: auto;" id="underlay">
                         <h4 class="card-body">
                             <table style="width:100%">
                                 <tr>
@@ -68,11 +70,16 @@ $count_Crew = $count_Crew_arr['COUNT(CrewID)'];
                             </table>
                         </h4>
                     </div>
-                    <h3>Sternenkarte</h3>
-                    <img src="../Images/Starmap.jpg" class="card-img-top" alt="...">
+                    <h3 id="text-underlay-log"><b>Sternenkarte</b></h3>
+                    <img src="../Images/Starmap.jpg" class="card-img-top" alt="..." id="img_ts">
                     <br>
-                    <h3>Aktuelles</h3>
-                    Neu News
+                    <h3 id="text-underlay-log"><b>Aktuelles</b></h3>
+                    <div id="underlay">
+                        <h4>How to Deal With Rocket Boosters and Other Giant Space Garbage</h4>
+                        As an errant SpaceX rocket booster careens toward the moon, here are some of the ways space agencies and companies are trying to deal with huge pieces of debris.
+                        <h4>To Study the Next Earth, NASA May Need to Throw Some Shade</h4>
+                        The agency wants to hunt exoplanets, so it’s designing star shades and coronagraphs that block out starlight and give telescopes a clear view.
+                    </div>
                 </div>
 
 
@@ -127,9 +134,7 @@ $count_Crew = $count_Crew_arr['COUNT(CrewID)'];
 
     </div>
     <div class="container">
-
-        <a href="../Controller/logout.php" class="btn btn-danger">Logout</a>
-
+        <a href="../Controller/logout.php" id="button-pad" class="btn btn-danger">Logout</a>
     </div>
 
 
